@@ -3,6 +3,29 @@ import Header from '../componentes/Header';
 import Rodape from '../componentes/Rodape'
 
 class Evento extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            listaEventos : [],
+            titulo :'',
+            acessoLivre : '',
+            dataEvento : '',
+            categoria : '',
+            localizacao : ''
+
+        }
+    }
+    searchEvent(){
+        fetch('http://localhost:5000/api/eventos')
+        .then(resposta => resposta.json())
+        .then(data => this.setState({listaEventos : data}))
+        .catch((erro) => console.log(erro))
+    }
+
+    componentDidMount(){
+        this.searchEvent();
+    }
+    
     render() {
         return (
             <div>
@@ -19,10 +42,26 @@ class Evento extends Component {
                                         <th>Data</th>
                                         <th>Acesso Livre</th>
                                         <th>Tipo do Evento</th>
+                                        <th>Localização</th>
                                     </tr>
                                 </thead>
 
-                                <tbody id="tabela-lista-corpo"></tbody>
+                                <tbody id="tabela-lista-corpo">
+                                    {
+                                        this.state.listaEventos.map(function(evento){
+                                            return(
+                                                <tr key = {evento.eventoId}>
+                                                    <td>{evento.eventoId}</td>
+                                                    <td>{evento.titulo}</td>
+                                                    <td>{evento.dataEvento}</td>
+                                                    <td>{evento.acessoLivre ? 'público':'privado'}</td>
+                                                    <td>{evento.categoria.titulo}</td>
+                                                    <td>{evento.localizacao}</td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </tbody>
                             </table>
                         </div>
 

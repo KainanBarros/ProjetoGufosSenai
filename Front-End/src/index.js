@@ -18,9 +18,9 @@ const Rotas = (
             <Switch>
                 <Route exact path = "/" component = {App} />{/* Caminho da home*/}
                 <Route path = "/categoria" component = {Categoria}/> {/* Caminho de categoria*/}
-                <Route path = "/login" component = {Login} />
-                <Route path = "/evento" component = {Evento} />
-                <Route path = "/usuario" component = {Usuario}/>
+                <Route path = "/login" component = {Login} /> {/* Caminho de login*/}
+                <Route path = "/evento" component = {Evento} /> {/* Caminho de evento*/}
+                <Route path = "/usuario" component = {Usuario}/> {/* Caminho de usuário*/}
                 <Route component={NotFound} />
             </Switch>
         </div>

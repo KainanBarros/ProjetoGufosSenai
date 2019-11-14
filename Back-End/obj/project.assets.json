@@ -6531,11 +6531,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fic\\Desktop\\Nova pasta\\Gufos\\backend\\backend.csproj",
+      "projectUniqueName": "C:\\Users\\fic\\Desktop\\ProjetoGufosSenai\\Back-End\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\Users\\fic\\Desktop\\Nova pasta\\Gufos\\backend\\backend.csproj",
+      "projectPath": "C:\\Users\\fic\\Desktop\\ProjetoGufosSenai\\Back-End\\backend.csproj",
       "packagesPath": "C:\\Users\\fic\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fic\\Desktop\\Nova pasta\\Gufos\\backend\\obj\\",
+      "outputPath": "C:\\Users\\fic\\Desktop\\ProjetoGufosSenai\\Back-End\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

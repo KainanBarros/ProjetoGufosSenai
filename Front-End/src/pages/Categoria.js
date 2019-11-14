@@ -3,6 +3,30 @@ import Rodape from '../componentes/Rodape';
 import Header from '../componentes/Header';
 
 class Categoria extends Component {
+    
+    constructor(props){
+        super(props);
+        this.state = {
+            listaCategorias : [],
+            titulo : ''
+        }
+    }
+    
+    //Função que faz a requisição para a api
+    //Atribui os dados recebidos ao state listaCategoria
+    //Caso ocorra um erro, exibe no console do navegador
+    searchCategory(){
+        fetch('http://localhost:5000/api/categorias')
+        .then(resposta => resposta.json())
+        .then(data => this.setState({listaCategorias : data}))
+        .catch((erro) => console.log(erro))
+    }
+
+    // Assim que a página for carregada, chama a função searchCategory
+    componentDidMount(){
+        this.searchCategory();
+    }
+
     render() {
         return (
             <div>
@@ -19,7 +43,21 @@ class Categoria extends Component {
                                     </tr>
                                 </thead>
 
-                                <tbody id="tabela-lista-corpo"></tbody>
+                                <tbody id="tabela-lista-corpo">
+                                
+                                {   
+                                    // Percorre o array listaCategoria e preenche o corpo da
+                                    // com o ID e o titulo de cada categoria
+                                    this.state.listaCategorias.map(function(categoria){
+                                        return (
+                                            <tr key ={categoria.categoriaId}>
+                                                <td>{categoria.categoriaId}</td>
+                                                <td>{categoria.titulo}</td>
+                                            </tr>
+                                        )
+                                    }) 
+                                }
+                                </tbody>
                             </table>
                         </div>
 

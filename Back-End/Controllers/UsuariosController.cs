@@ -10,7 +10,7 @@ namespace senai_2s2019_CodeXP_Gufos.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    // [Authorize]
     public class UsuariosController : ControllerBase
     {
         UsuarioRepository _repositorio = new UsuarioRepository();
@@ -20,7 +20,7 @@ namespace senai_2s2019_CodeXP_Gufos.Controllers
         /// </summary>
         /// <returns>Retorna uma lista de usuários</returns>
         [HttpGet]
-        [Authorize(Roles = "Administrador")]
+        // [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<List<Usuario>>> Get()
         {
             List<Usuario> usuarios = await _repositorio.Listar();
@@ -39,7 +39,7 @@ namespace senai_2s2019_CodeXP_Gufos.Controllers
         /// <param name="id">Identificador único do usuário que será buscado</param>
         /// <returns>Retorna um usuário buscado</returns>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Administrador")]
+        // [Authorize(Roles = "Administrador")]
         public ActionResult<Usuario> Get(int id)
         {
             Usuario usuario = _repositorio.BuscarPorID(id);
