@@ -14,6 +14,13 @@ class Evento extends Component {
             localizacao : ''
 
         }
+        this.updateTitleState = this.updateTitleState.bind(this);
+        this.updateFreeAccessState = this.updateFreeAccessState.bind(this);
+        this.updateEventDateState = this.updateEventDateState.bind(this);
+        this.updateCategoryState = this.updateCategoryState.bind(this);
+        this.updateLocationState = this.updateLocationState.bind(this);
+        this.searchEvent = this.searchEvent.bind(this);
+        this.registerEvent = this.registerEvent.bind(this);
     }
     searchEvent(){
         fetch('http://localhost:5000/api/eventos')
@@ -22,6 +29,44 @@ class Evento extends Component {
         .catch((erro) => console.log(erro))
     }
 
+    updateTitleState(event){
+        this.setState({titulo:event.target.value})
+    }
+    updateFreeAccessState(event){
+        this.setState({acessoLivre:event.target.value})
+    }
+    updateEventDateState(event){
+        this.setState({dataEvento:event.target.value})
+    }
+    updateCategoryState(event){
+        this.setState({categoria:event.target.value})
+    }
+    updateLocationState(event){
+        this.setState({localizacao:event.target.value})
+    }
+
+    registerEvent(event){
+        event.preventDefault();
+        fetch('http://localhost:5000/api/eventos',
+        {
+            method: 'POST',
+            body: JSON.stringify({titulo: this.state.titulo,
+                acessoLivre: this.state.acessoLivre,
+                dataEvento: this.state.dataEvento,
+                categoria: this.state.categoria.titulo,
+                localizacao: this.state.localizacao}),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+        .then(resposta =>{
+            if(resposta.status === 200){
+                console.log("Categoria cadastrada!")
+            }
+        })
+        .catch(error => console.log(error))
+        .then(this.searchEvent)
+    }
     componentDidMount(){
         this.searchEvent();
     }
@@ -55,7 +100,7 @@ class Evento extends Component {
                                                     <td>{evento.titulo}</td>
                                                     <td>{evento.dataEvento}</td>
                                                     <td>{evento.acessoLivre ? 'público':'privado'}</td>
-                                                    <td>{evento.categoria.titulo}</td>
+                                                    {/* <td>{evento.categoria.titulo}</td> */}
                                                     <td>{evento.localizacao}</td>
                                                 </tr>
                                             )
@@ -65,18 +110,22 @@ class Evento extends Component {
                             </table>
                         </div>
 
+                            <form onSubmit = {this.registerEvent}>
                         <div className="container" id="conteudoPrincipal-cadastro">
                             <h2 className="conteudoPrincipal-cadastro-titulo">Cadastrar Evento</h2>
-                            <div className="container">
+                            <div className="container"> 
                                 <input
+                                    value = {this.state.titulo}
+                                    onChange = {this.updateTitleState}
                                     type="text"
                                     id="evento__titulo"
                                     placeholder="título do evento"
-                                />
-                                <input type="text" id="evento__data" placeholder="dd/MM/yyyy" />
-                                <select id="option__acessolivre">
-                                    <option value="1">Livre</option>
-                                    <option value="0">Restrito</option>
+                                    />
+                                <input value = {this.state.dataEvento} onChange = {this.updateEventDateState} type="date" id="evento__data" placeholder="dd/MM/yyyy" />
+                                
+                                <select id="option__acessolivre" value = {this.state.acessoLivre} onChange = {this.updateFreeAccessState}>
+                                    <option value="1">público</option>
+                                    <option value="0">privado</option>
                                 </select>
                                 <select id="option__tipoevento">
                                     <option value="0" disabled>Tipo do Evento</option>
@@ -86,15 +135,16 @@ class Evento extends Component {
                                     cols="50"
                                     placeholder="descrição do evento"
                                     id="evento__descricao"
-                                ></textarea>
-                            </div>
-                            <button
+                                    ></textarea>
+                                <button
+                                type = "submit"
                                 className="conteudoPrincipal-btn conteudoPrincipal-btn-cadastro"
-                                onclick="cadastrarEvento()"
-                            >
+                                >
                                 Cadastrar
                             </button>
+                            </div>
                         </div>
+                            </form>
                     </section>
                 </main>
                 <Rodape/>

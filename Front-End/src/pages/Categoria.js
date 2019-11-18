@@ -10,6 +10,9 @@ class Categoria extends Component {
             listaCategorias : [],
             titulo : ''
         }
+        this.updateTitleState = this.updateTitleState.bind(this);
+        this.searchCategory = this.searchCategory.bind(this);
+        this.registercategory = this.registercategory.bind(this);
     }
     
     //Função que faz a requisição para a api
@@ -25,6 +28,30 @@ class Categoria extends Component {
     // Assim que a página for carregada, chama a função searchCategory
     componentDidMount(){
         this.searchCategory();
+    }
+
+    updateTitleState(event){
+        this.setState({titulo:event.target.value})
+    }
+
+    registercategory(event){
+        event.preventDefault(); // evita comportamentos padrões da pagina
+
+        fetch('http://localhost:5000/api/categorias',
+        {
+            method: 'POST', // declara o metodo que será utilizado
+            body: JSON.stringify({titulo: this.state.titulo}),
+            headers: {
+                "Content-type":"application/json"
+            }
+        })
+        .then(resposta => {
+            if (resposta.status === 200){
+                console.log("Categoria cadastrada!");
+            }
+        })
+        .catch(error => console.log(error))
+        .then(this.searchCategory)
     }
 
     render() {
@@ -65,18 +92,18 @@ class Categoria extends Component {
                             <h2 class="conteudoPrincipal-cadastro-titulo">
                                 Cadastrar Tipo de Evento
                             </h2>
-                            <form>
+                            <form onSubmit ={this.registercategory}>
                                 <div class="container">
                                     <input
+                                        value ={this.state.titulo} //o valor digitado no input
+                                        onChange = {this.updateTitleState} // evento do formulario
                                         type="text"
                                         id="nome-tipo-evento"
                                         placeholder="tipo do evento"
                                     />
-                                    <button
-                                        class="conteudoPrincipal-btn conteudoPrincipal-btn-cadastro"
-                                    >
+                                    <button type="submit" className="conteudoPrincipal-btn conteudoPrincipal-btn-cadastro">
                                         Cadastrar
-                    </button>
+                                    </button>
                                 </div>
                             </form>
                         </div>

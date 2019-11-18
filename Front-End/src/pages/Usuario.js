@@ -54,6 +54,8 @@ class Usuario extends Component {
                                                     <td>{usuario.nome}</td>
                                                     <td>{usuario.email}</td>
                                                     <td>{usuario.tipoUsuario.titulo}</td>
+                                                    <td>SP</td>
+                                                    <td>Editar/Excluir</td>
                                                 </tr>
                                             )
                                         })
