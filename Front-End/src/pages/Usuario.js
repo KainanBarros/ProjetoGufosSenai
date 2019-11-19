@@ -23,6 +23,26 @@ class Usuario extends Component {
         this.searchUser()
     }
 
+    deletarUsuario = (id) => {
+        console.log('Excluido!')
+        fetch('http://localhost:5000/api/usuarios/'+id,{
+            method : 'DELETE',
+            headers : {
+                "Content-type" : "application/json"
+            }
+        })
+        .then(response => response.json())
+
+        .then(response =>{
+            console.log(response);
+            this.listaEventos();
+            this.setState(()=> ({lista:this.state.lista}))
+        })
+
+        .catch(error => console.log(error))
+    
+        .then(this.searchUser)
+    }
 
     render() {
         return (
@@ -55,10 +75,12 @@ class Usuario extends Component {
                                                     <td>{usuario.email}</td>
                                                     <td>{usuario.tipoUsuario.titulo}</td>
                                                     <td>SP</td>
-                                                    <td>Editar/Excluir</td>
+                                                    <td>
+                                                        <button type = "submit" onClick = {i => this.deletarUsuario(usuario.usuarioId)}>Excluir</button>
+                                                    </td>
                                                 </tr>
                                             )
-                                        })
+                                        }.bind(this))
                                     }
 
                                 </tbody>

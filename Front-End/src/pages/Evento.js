@@ -70,6 +70,28 @@ class Evento extends Component {
     componentDidMount(){
         this.searchEvent();
     }
+
+    deletarEvento = (id) => {
+        console.log('Excluido!')
+        fetch('http://localhost:5000/api/eventos/'+id,
+        {
+            method : 'DELETE',
+            headers : {
+                "Content-type" : "application/json"
+            }
+        })
+        .then(response => response.json())
+        
+        .then(response => {
+            console.log(response);
+            this.listaEventos();
+            this.setState(()=> ({lista:this.state.lista}))
+        })
+
+        .catch(error => console.log(error))
+
+        .then(this.searchEvent)
+    }
     
     render() {
         return (
@@ -86,8 +108,9 @@ class Evento extends Component {
                                         <th>Evento</th>
                                         <th>Data</th>
                                         <th>Acesso Livre</th>
-                                        <th>Tipo do Evento</th>
-                                        <th>Localização</th>
+                                        {/* <th>Tipo do Evento</th>
+                                        <th>Localização</th> */}
+                                        <th>Ação</th>
                                     </tr>
                                 </thead>
 
@@ -101,10 +124,13 @@ class Evento extends Component {
                                                     <td>{evento.dataEvento}</td>
                                                     <td>{evento.acessoLivre ? 'público':'privado'}</td>
                                                     {/* <td>{evento.categoria.titulo}</td> */}
-                                                    <td>{evento.localizacao}</td>
+                                                    {/* <td>{evento.localizacao}</td> */}
+                                                    <td>
+                                                        <button type = "submit" onClick = {i => this.deletarEvento(evento.eventoId)}>Excluir</button>
+                                                    </td>
                                                 </tr>
                                             )
-                                        })
+                                        }.bind(this))
                                     }
                                 </tbody>
                             </table>

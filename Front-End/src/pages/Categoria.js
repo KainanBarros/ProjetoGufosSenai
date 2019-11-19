@@ -54,6 +54,28 @@ class Categoria extends Component {
         .then(this.searchCategory)
     }
 
+    deletarCategoria = (id) => {
+        console.log("Excluido")
+
+        fetch('http://localhost:5000/api/categorias/'+id,{
+            method : 'DELETE',
+            headers : {
+                "Content-type" : "application/json"
+            }
+        })
+        .then(response => response.json())
+        
+        .then(response => {
+            console.log(response);
+            this.listaCategorias();
+            this.setState(()=> ({lista:this.state.lista}))
+        })
+        
+        .catch(error => console.log(error))
+
+        .then(this.searchCategory)
+    }
+
     render() {
         return (
             <div>
@@ -67,6 +89,7 @@ class Categoria extends Component {
                                     <tr>
                                         <th>#</th>
                                         <th>Título</th>
+                                        <th>Ação</th>
                                     </tr>
                                 </thead>
 
@@ -80,9 +103,12 @@ class Categoria extends Component {
                                             <tr key ={categoria.categoriaId}>
                                                 <td>{categoria.categoriaId}</td>
                                                 <td>{categoria.titulo}</td>
+                                                <td>
+                                                    <button type ='submit' onClick = {i => this.deletarCategoria(categoria.categoriaId)}>Excluir</button>
+                                                </td>
                                             </tr>
                                         )
-                                    }) 
+                                    }.bind(this)) 
                                 }
                                 </tbody>
                             </table>
