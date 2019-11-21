@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../assets/css/login.css';
 import Axios from 'axios';
+import {parseJwt} from  '../services/auth';
 
 class Login extends Component{
     constructor(props){
@@ -8,11 +9,15 @@ class Login extends Component{
             this.state = {
                 email : '',
                 senha : '',
-                erromensagem : ''
+                erromensagem : '',
+                isLoading : false
             }
     }
     efetuaLogin(event){
         event.preventDefault();
+        this.setState({erromensagem : ''});
+        
+        this.setState({isLoading : true});
 
         Axios.post('http://localhost:5000/api/login',
         {
@@ -21,12 +26,28 @@ class Login extends Component{
         })
         .then(data => {
             if(data.status === 200){
-                localStorage.setItem('usuari-gufos',data.data.token)
+                localStorage.setItem('usuario-gufos',data.data.token)
                 console.log('Meu token é:' + data.data.token)
+                this.setState({isLoading : false})
+
+                // var base64 = localStorage.getItem('usuario-gufos').split('.')[1];
+                // console.log(base64);
+                // console.log(window.atob(base64));
+                // console.log(JSON.parse(window.atob(base64)))
+
+                console.log(parseJwt().Role)
+
+                if (parseJwt().Role === 'Administrador'){
+                    this.props.history.push('/categoria')
+                }
+                else{
+                    this.props.history.push('/evento')
+                }
             }
         })
         .catch(erro => {
             this.setState({erromensagem : 'E-mail ou senha inválidos!'})
+            this.setState({isLoading : false});
         })
     }
 
@@ -76,9 +97,22 @@ class Login extends Component{
                                         />
                                 </div>
                                 <div className="item">
-                                    <button type = "submit" className="btn btn__login" id="btn__login">
+                                    <p style = {{color : 'red'}}>{this.state.erromensagem}</p>
+                                    {/* <button type = "submit" className="btn btn__login" id="btn__login">
+                                        Login
+                                    </button> */}
+                                    {
+                                        this.state.isLoading === true &&
+                                        <button type = "submit" className="btn btn__login" id="btn__login" disabled>
+                                        Loading...
+                                    </button>
+                                    }
+                                    {
+                                        this.state.isLoading === false &&
+                                        <button type = "submit" className="btn btn__login" id="btn__login">
                                         Login
                                     </button>
+                                    }
                                 </div>
                             </form>
                         </div>
